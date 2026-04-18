@@ -1,0 +1,474 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;font-size:14px;background:#1a1d23;color:#d4d8e2}
+.app{max-width:920px;margin:0 auto;padding:1rem 0}
+.hdr{background:#0f1117;border:0.5px solid #2e3340;border-radius:12px;padding:1.1rem 1.4rem;margin-bottom:.9rem;display:flex;align-items:center;gap:1rem}
+.hdr-icon{font-size:26px}
+.hdr-title{color:#e8ecf5;font-size:17px;font-weight:500}
+.hdr-sub{color:#6b7280;font-size:11px;margin-top:2px}
+.hdr-date{margin-left:auto;color:#6b7280;font-size:11px;text-align:right;line-height:1.6}
+.nav{display:flex;gap:5px;margin-bottom:.9rem;flex-wrap:wrap}
+.nb{padding:6px 13px;border-radius:8px;border:0.5px solid #2e3340;background:#252830;color:#9ba3b5;cursor:pointer;font-size:12px;transition:all .15s}
+.nb:hover{background:#2e3340;color:#d4d8e2}
+.nb.act{background:#1c3a6e;color:#93b8f0;border-color:#2d5aab;font-weight:500}
+.sec{display:none}.sec.act{display:block}
+.card{background:#20232b;border:0.5px solid #2e3340;border-radius:12px;padding:1.1rem 1.25rem;margin-bottom:.9rem}
+.ct{font-size:13px;font-weight:500;color:#6b7280;margin-bottom:.9rem;display:flex;align-items:center;gap:6px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.sc{background:#181b22;border-radius:8px;padding:.8rem 1rem}
+.sl{font-size:11px;color:#6b7280;margin-bottom:3px}
+.sv{font-size:22px;font-weight:500}
+.sv.gr{color:#5DCAA5}.sv.rd{color:#E24B4A}.sv.am{color:#EF9F27}.sv.bl{color:#378ADD}
+label{font-size:11px;color:#6b7280;display:block;margin-bottom:3px}
+input,select,textarea{width:100%;padding:7px 10px;border:0.5px solid #2e3340;border-radius:8px;font-size:13px;background:#181b22;color:#d4d8e2;outline:none}
+input:focus,select:focus{border-color:#2d5aab}
+.field{margin-bottom:9px}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{text-align:left;padding:7px 9px;border-bottom:1px solid #2e3340;font-size:11px;font-weight:500;color:#6b7280}
+td{padding:7px 9px;border-bottom:0.5px solid #23262e;color:#c8cdd8}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#252830}
+.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:500}
+.bg{background:#0F6E5622;color:#5DCAA5;border:0.5px solid #0F6E5644}
+.br{background:#A32D2D22;color:#F09595;border:0.5px solid #A32D2D44}
+.ba{background:#854F0B22;color:#EF9F27;border:0.5px solid #854F0B44}
+.bb{background:#185FA522;color:#85B7EB;border:0.5px solid #185FA544}
+.btn{padding:7px 14px;border-radius:8px;border:0.5px solid #2e3340;background:transparent;cursor:pointer;font-size:12px;color:#c8cdd8;transition:all .15s}
+.btn:hover{background:#2e3340}
+.bp{background:#1c3a6e;color:#93b8f0;border-color:#2d5aab}
+.bp:hover{background:#2d5aab}
+.bdn{background:#3a1818;color:#F09595;border-color:#7a2020}
+.brow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;align-items:center}
+
+.share-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:10px}
+.share-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:14px 8px;border-radius:10px;border:0.5px solid #2e3340;background:#181b22;cursor:pointer;transition:all .15s;color:#d4d8e2;font-size:12px;font-weight:500}
+.share-btn:hover{background:#252830;transform:translateY(-1px)}
+.share-btn .ico{font-size:24px}
+.share-btn.wa{border-color:#25d36633;background:#25d36611}
+.share-btn.wa:hover{background:#25d36622}
+.share-btn.wa .lbl{color:#25d366}
+.share-btn.dl{border-color:#2d5aab55;background:#1c3a6e22}
+.share-btn.dl:hover{background:#1c3a6e44}
+.share-btn.dl .lbl{color:#93b8f0}
+.share-btn.pr{border-color:#6b728055;background:#252830}
+.share-btn.pr .lbl{color:#9ba3b5}
+
+.share-status{margin-top:10px;padding:9px 13px;border-radius:8px;font-size:12px;display:none}
+.share-status.ok{background:#0F6E5618;border:0.5px solid #0F6E5633;color:#5DCAA5;display:block}
+.share-status.err{background:#A32D2D18;border:0.5px solid #A32D2D33;color:#F09595;display:block}
+.share-status.inf{background:#185FA518;border:0.5px solid #185FA533;color:#85B7EB;display:block}
+
+.tr{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:0.5px solid #252830;flex-wrap:wrap}
+.tr:last-child{border-bottom:none}
+.tn{flex:1;font-size:13px;color:#d4d8e2}
+.rg{display:flex;gap:5px;flex-wrap:wrap}
+.rb{padding:3px 9px;border-radius:6px;border:0.5px solid #2e3340;background:transparent;cursor:pointer;font-size:11px;color:#6b7280}
+.rb.sp{background:#0F6E5622;color:#5DCAA5;border-color:#0F6E5644}
+.rb.sf{background:#A32D2D22;color:#F09595;border-color:#A32D2D44}
+.rb.sd{background:#854F0B22;color:#EF9F27;border-color:#854F0B44}
+.rb.si{background:#534AB722;color:#AFA9EC;border-color:#534AB744}
+.rb.sv2{background:#185FA522;color:#85B7EB;border-color:#185FA544}
+.rb.sm{background:#5F5E5A22;color:#9ba3b5;border-color:#5F5E5A44}
+.ntag{display:inline-block;background:#854F0B33;color:#EF9F27;font-size:10px;padding:1px 6px;border-radius:4px;margin-left:4px;font-weight:500}
+.motivo-box{font-size:11px;color:#EF9F27;padding:3px 10px 5px 10px;background:#854F0B18;border-radius:6px;margin:2px 0 4px}
+.hbox{background:#185FA518;border:0.5px solid #185FA533;border-radius:8px;padding:9px 13px;margin-bottom:10px}
+.hbox p{font-size:12px;color:#85B7EB;line-height:1.6}
+.pdf-wrap{background:#f8f9fc;border:1px solid #d1d5db;border-radius:10px;padding:2rem;color:#1a1a2e;min-height:400px}
+.pdf-wrap *{font-family:'Georgia',serif;color:#1a1a2e}
+.ph{border-bottom:3px solid #1a2744;padding-bottom:11px;margin-bottom:14px}
+.ptitle{font-size:19px;font-weight:bold;color:#1a2744}
+.psub{font-size:11px;color:#555;margin-top:2px}
+.pmeta{display:flex;gap:1.2rem;margin-top:7px;font-size:11px;color:#444;flex-wrap:wrap}
+.ps{margin-bottom:13px}
+.pst{font-size:12px;font-weight:bold;color:#1a2744;border-left:3px solid #1a2744;padding-left:7px;margin-bottom:7px}
+.ptable{width:100%;border-collapse:collapse;font-size:11px}
+.ptable th{background:#1a2744;color:#fff;padding:5px 7px;text-align:left;font-family:Georgia,serif}
+.ptable td{padding:4px 7px;border-bottom:0.5px solid #d1d5db;font-family:Georgia,serif}
+.ptable tr:nth-child(even) td{background:#f0f4f8}
+.pft{border-top:1px solid #d1d5db;margin-top:14px;padding-top:7px;font-size:10px;color:#999;display:flex;justify-content:space-between}
+.pfirma{margin-top:28px;display:flex;justify-content:space-around}
+.pfb{text-align:center;font-size:11px;font-family:Georgia,serif}
+.pfbl{border-top:1px solid #333;width:140px;margin:0 auto 4px}
+</style>
+
+<div class="app">
+  <div class="hdr">
+    <div class="hdr-icon">🛡</div>
+    <div>
+      <div class="hdr-title">Sistema de Supervisión de Seguridad</div>
+      <div class="hdr-sub">Control de personal · armamento · unidades</div>
+    </div>
+    <div class="hdr-date" id="fh"></div>
+  </div>
+
+  <div class="nav">
+    <button class="nb act" onclick="show('asistencia',this)">📋 Asistencia</button>
+    <button class="nb" onclick="show('vacantes',this)">👥 Vacantes</button>
+    <button class="nb" onclick="show('unidades',this)">🚗 Unidades</button>
+    <button class="nb" onclick="show('armamento',this)">🔒 Armamento</button>
+    <button class="nb" onclick="show('reporte',this)">📤 Enviar Reporte</button>
+  </div>
+
+  <!-- ASISTENCIA -->
+  <div class="sec act" id="s-asistencia">
+    <div class="card">
+      <div class="ct">⚙ Configuración del turno</div>
+      <div class="g3">
+        <div class="field"><label>Fecha</label><input type="date" id="fecha"></div>
+        <div class="field"><label>Turno</label><select id="turno"><option value="Diurno">Diurno (06:00–18:00)</option><option value="Nocturno">Nocturno (18:00–06:00)</option></select></div>
+        <div class="field"><label>Supervisor</label><input type="text" id="supnombre" placeholder="Tu nombre completo"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ct">👤 Agregar elemento</div>
+      <div class="g3">
+        <div class="field"><label>Nombre completo</label><input type="text" id="nn" placeholder="Apellido Nombre"></div>
+        <div class="field"><label>No. empleado / placa</label><input type="text" id="np" placeholder="E-0001"></div>
+        <div class="field"><label>Zona / Puesto</label><input type="text" id="nz" placeholder="Acceso principal"></div>
+      </div>
+      <div class="g3">
+        <div class="field"><label>Armado</label><select id="na"><option value="No">No armado</option><option value="Si">Armado</option></select></div>
+        <div class="field"><label>Personal nuevo</label><select id="nv"><option value="No">No</option><option value="Si">Sí – primer turno</option></select></div>
+        <div style="display:flex;align-items:flex-end"><button class="btn bp" onclick="addP()" style="width:100%">+ Agregar</button></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ct">📋 Lista de asistencia</div>
+      <div id="lista"></div>
+    </div>
+  </div>
+
+  <!-- VACANTES -->
+  <div class="sec" id="s-vacantes">
+    <div class="card"><div class="ct">📊 Resumen de plantilla</div><div class="g4" id="stats"></div></div>
+    <div class="card">
+      <div class="ct">➕ Registrar vacante</div>
+      <div class="g2">
+        <div class="field"><label>Zona sin cubrir</label><input type="text" id="vp" placeholder="Acceso norte"></div>
+        <div class="field"><label>Turno</label><select id="vt"><option>Diurno</option><option>Nocturno</option><option>Ambos turnos</option></select></div>
+      </div>
+      <div class="field"><label>Observación</label><input type="text" id="vo" placeholder="Causa o acciones tomadas"></div>
+      <button class="btn bdn" onclick="addV()">+ Registrar vacante</button>
+    </div>
+    <div class="card"><div class="ct">🔴 Vacantes registradas</div><div id="lvac"></div></div>
+  </div>
+
+  <!-- UNIDADES -->
+  <div class="sec" id="s-unidades">
+    <div class="card">
+      <div class="ct">🚗 Registrar unidad</div>
+      <div class="g3">
+        <div class="field"><label>Placa / ID</label><input type="text" id="up" placeholder="ABC-123"></div>
+        <div class="field"><label>Tipo</label><select id="ut"><option>Patrulla</option><option>Camioneta</option><option>Moto</option><option>Otro</option></select></div>
+        <div class="field"><label>Estado</label><select id="ue"><option value="Operativo">Operativo</option><option value="Falla menor">Falla menor</option><option value="Fuera de servicio">Fuera de servicio</option></select></div>
+      </div>
+      <div class="field"><label>Observaciones</label><input type="text" id="uo" placeholder="Ej: fuga de aceite, frenos"></div>
+      <button class="btn bp" onclick="addU()">+ Registrar unidad</button>
+    </div>
+    <div class="card"><div class="ct">🚗 Estado de unidades</div><div id="luni"></div></div>
+  </div>
+
+  <!-- ARMAMENTO -->
+  <div class="sec" id="s-armamento">
+    <div class="card">
+      <div class="ct">🔒 Registrar armamento</div>
+      <div class="g3">
+        <div class="field"><label>Tipo</label><select id="at"><option>Pistola</option><option>Escopeta</option><option>Rifle</option><option>Gas pimienta</option><option>Taser</option><option>Otro</option></select></div>
+        <div class="field"><label>No. de serie</label><input type="text" id="as" placeholder="AR-00001"></div>
+        <div class="field"><label>Asignada a</label><input type="text" id="ag" placeholder="Apellido Nombre"></div>
+      </div>
+      <div class="g3">
+        <div class="field"><label>Estado</label><select id="ae"><option value="En servicio">En servicio</option><option value="Revision">En revisión</option><option value="Fuera de servicio">Fuera de servicio</option></select></div>
+        <div class="field"><label>Munición (cartuchos)</label><input type="number" id="am" placeholder="0" min="0"></div>
+        <div style="display:flex;align-items:flex-end"><button class="btn bp" onclick="addA()" style="width:100%">+ Registrar</button></div>
+      </div>
+    </div>
+    <div class="card"><div class="ct">🔒 Inventario de armamento</div><div id="larm"></div></div>
+  </div>
+
+  <!-- REPORTE Y ENVÍO -->
+  <div class="sec" id="s-reporte">
+    <div class="card">
+      <div class="ct">📤 Enviar o descargar reporte</div>
+
+      <div class="hbox">
+        <p>Elige cómo quieres compartir el reporte del turno. En Android Chrome el botón de WhatsApp abre el diálogo de compartir del sistema directamente.</p>
+      </div>
+
+      <div class="share-grid">
+        <button class="share-btn wa" onclick="compartirWhatsApp()">
+          <span class="ico">💬</span>
+          <span class="lbl">WhatsApp</span>
+          <span style="font-size:10px;color:#6b7280">Compartir archivo</span>
+        </button>
+        <button class="share-btn dl" onclick="descargarHTML()">
+          <span class="ico">⬇</span>
+          <span class="lbl">Descargar HTML</span>
+          <span style="font-size:10px;color:#6b7280">Guardar en cel</span>
+        </button>
+        <button class="share-btn pr" onclick="window.print()">
+          <span class="ico">🖨</span>
+          <span class="lbl">Imprimir / PDF</span>
+          <span style="font-size:10px;color:#6b7280">Guardar como PDF</span>
+        </button>
+      </div>
+
+      <div id="share-status" class="share-status"></div>
+
+      <div style="margin-top:14px;border-top:0.5px solid #2e3340;padding-top:12px">
+        <div class="ct" style="margin-bottom:6px">📋 Resumen del reporte</div>
+        <div class="g4" id="resumen-stats"></div>
+      </div>
+    </div>
+
+    <div id="prev"></div>
+  </div>
+</div>
+
+<script>
+const P=[],V=[],U=[],A=[];
+const hoy=new Date();
+document.getElementById('fh').innerHTML=hoy.toLocaleDateString('es-MX',{weekday:'long',year:'numeric',month:'long',day:'numeric'})+'<br>'+hoy.toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});
+document.getElementById('fecha').value=hoy.toISOString().slice(0,10);
+
+function show(id,btn){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('act'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('act'));
+  document.getElementById('s-'+id).classList.add('act');
+  btn.classList.add('act');
+  if(id==='vacantes')renderV();
+  if(id==='reporte'){renderResumen();renderPDF();}
+}
+
+function addP(){
+  const n=document.getElementById('nn').value.trim();
+  if(!n)return alert('Ingresa el nombre del elemento.');
+  P.push({nombre:n,placa:document.getElementById('np').value.trim()||'—',zona:document.getElementById('nz').value.trim()||'—',armado:document.getElementById('na').value,nuevo:document.getElementById('nv').value,estado:'P',motivo:''});
+  ['nn','np','nz'].forEach(id=>document.getElementById(id).value='');
+  renderL();
+}
+
+function renderL(){
+  const el=document.getElementById('lista');
+  if(!P.length){el.innerHTML='<p style="font-size:13px;color:#6b7280">Sin personal registrado.</p>';return;}
+  let h='';
+  P.forEach((p,i)=>{
+    const nt=p.nuevo==='Si'?'<span class="ntag">NUEVO</span>':'';
+    const at=p.armado==='Si'?'<span class="badge ba">Armado</span>':'';
+    h+=`<div class="tr"><div class="tn"><strong>${p.nombre}</strong> ${nt} ${at}<br><span style="font-size:11px;color:#6b7280">${p.placa} · ${p.zona}</span></div>
+    <div class="rg">
+      <button class="rb ${p.estado==='P'?'sp':''}" onclick="setE(${i},'P')">✅ Pres.</button>
+      <button class="rb ${p.estado==='F'?'sf':''}" onclick="setE(${i},'F')">❌ Falta</button>
+      <button class="rb ${p.estado==='D'?'sd':''}" onclick="setE(${i},'D')">🔄 Descanso</button>
+      <button class="rb ${p.estado==='I'?'si':''}" onclick="setE(${i},'I')">🏥 Incap.</button>
+      <button class="rb ${p.estado==='V'?'sv2':''}" onclick="setE(${i},'V')">🏖 Vacac.</button>
+      <button class="rb sm" onclick="setM(${i})">📝 Motivo</button>
+    </div></div>`;
+    if(p.motivo)h+=`<div class="motivo-box">📝 ${p.motivo}</div>`;
+  });
+  el.innerHTML=h;
+}
+
+function setE(i,e){P[i].estado=e;renderL();}
+function setM(i){const m=prompt('Motivo para '+P[i].nombre+':');if(m){P[i].motivo=m;}renderL();}
+
+function addV(){
+  const p=document.getElementById('vp').value.trim();
+  if(!p)return alert('Indica el puesto vacante.');
+  V.push({puesto:p,turno:document.getElementById('vt').value,obs:document.getElementById('vo').value.trim()||'—'});
+  document.getElementById('vp').value='';document.getElementById('vo').value='';
+  renderV();
+}
+
+function renderV(){
+  const pr=P.filter(p=>p.estado==='P').length,fa=P.filter(p=>p.estado==='F').length,ds=P.filter(p=>p.estado==='D').length,ic=P.filter(p=>p.estado==='I').length;
+  document.getElementById('stats').innerHTML=`
+    <div class="sc"><div class="sl">Total</div><div class="sv bl">${P.length}</div></div>
+    <div class="sc"><div class="sl">Presentes</div><div class="sv gr">${pr}</div></div>
+    <div class="sc"><div class="sl">Faltas</div><div class="sv rd">${fa}</div></div>
+    <div class="sc"><div class="sl">Desc./Incap.</div><div class="sv am">${ds+ic}</div></div>`;
+  const lv=document.getElementById('lvac');
+  if(!V.length){lv.innerHTML='<p style="font-size:13px;color:#6b7280">Sin vacantes registradas.</p>';return;}
+  let h='<table><tr><th>Zona</th><th>Turno</th><th>Observación</th><th></th></tr>';
+  V.forEach((v,i)=>h+=`<tr><td>${v.puesto}</td><td><span class="badge bb">${v.turno}</span></td><td>${v.obs}</td><td><button class="btn" style="font-size:11px;padding:2px 7px" onclick="V.splice(${i},1);renderV()">✕</button></td></tr>`);
+  lv.innerHTML=h+'</table>';
+}
+
+function addU(){
+  const p=document.getElementById('up').value.trim();
+  if(!p)return alert('Ingresa la placa.');
+  U.push({placa:p,tipo:document.getElementById('ut').value,estado:document.getElementById('ue').value,obs:document.getElementById('uo').value.trim()||'—'});
+  document.getElementById('up').value='';document.getElementById('uo').value='';
+  renderU();
+}
+
+function renderU(){
+  const el=document.getElementById('luni');
+  if(!U.length){el.innerHTML='<p style="font-size:13px;color:#6b7280">Sin unidades registradas.</p>';return;}
+  let h='<table><tr><th>Placa</th><th>Tipo</th><th>Estado</th><th>Observaciones</th><th></th></tr>';
+  U.forEach((u,i)=>{const bc=u.estado==='Operativo'?'bg':u.estado==='Falla menor'?'ba':'br';h+=`<tr><td><strong>${u.placa}</strong></td><td>${u.tipo}</td><td><span class="badge ${bc}">${u.estado}</span></td><td>${u.obs}</td><td><button class="btn" style="font-size:11px;padding:2px 7px" onclick="U.splice(${i},1);renderU()">✕</button></td></tr>`;});
+  el.innerHTML=h+'</table>';
+}
+
+function addA(){
+  const s=document.getElementById('as').value.trim();
+  if(!s)return alert('Ingresa el número de serie.');
+  A.push({tipo:document.getElementById('at').value,serie:s,agente:document.getElementById('ag').value.trim()||'—',estado:document.getElementById('ae').value,municion:document.getElementById('am').value||'0'});
+  document.getElementById('as').value='';document.getElementById('ag').value='';document.getElementById('am').value='';
+  renderA();
+}
+
+function renderA(){
+  const el=document.getElementById('larm');
+  if(!A.length){el.innerHTML='<p style="font-size:13px;color:#6b7280">Sin armamento registrado.</p>';return;}
+  let h='<table><tr><th>Tipo</th><th>Serie</th><th>Asignado a</th><th>Estado</th><th>Munición</th><th></th></tr>';
+  A.forEach((a,i)=>{const bc=a.estado==='En servicio'?'bg':a.estado==='Revision'?'ba':'br';h+=`<tr><td>${a.tipo}</td><td style="font-family:monospace">${a.serie}</td><td>${a.agente}</td><td><span class="badge ${bc}">${a.estado}</span></td><td>${a.municion} cart.</td><td><button class="btn" style="font-size:11px;padding:2px 7px" onclick="A.splice(${i},1);renderA()">✕</button></td></tr>`;});
+  el.innerHTML=h+'</table>';
+}
+
+function eNom(e){return{P:'Presente',F:'Falta',D:'Descanso',I:'Incapacidad',V:'Vacaciones'}[e]||'Otro';}
+
+function renderResumen(){
+  const pr=P.filter(p=>p.estado==='P').length,fa=P.filter(p=>p.estado==='F').length,ds=P.filter(p=>p.estado==='D').length,ic=P.filter(p=>p.estado==='I').length;
+  document.getElementById('resumen-stats').innerHTML=`
+    <div class="sc"><div class="sl">Personal</div><div class="sv bl">${P.length}</div></div>
+    <div class="sc"><div class="sl">Presentes</div><div class="sv gr">${pr}</div></div>
+    <div class="sc"><div class="sl">Vacantes</div><div class="sv rd">${V.length}</div></div>
+    <div class="sc"><div class="sl">Unidades</div><div class="sv am">${U.length}</div></div>`;
+}
+
+function buildHTML(){
+  const fecha=document.getElementById('fecha').value||hoy.toISOString().slice(0,10);
+  const turno=document.getElementById('turno').value;
+  const sup=document.getElementById('supnombre').value||'No especificado';
+  const pr=P.filter(p=>p.estado==='P').length,fa=P.filter(p=>p.estado==='F').length,ds=P.filter(p=>p.estado==='D').length,ic=P.filter(p=>p.estado==='I').length;
+  const nv=P.filter(p=>p.nuevo==='Si').length,arm=P.filter(p=>p.armado==='Si').length;
+  const rpP=P.map(p=>`<tr><td>${p.placa}</td><td>${p.nombre}${p.nuevo==='Si'?' ★':''}</td><td>${p.zona}</td><td>${p.armado}</td><td>${eNom(p.estado)}</td><td>${p.motivo||'—'}</td></tr>`).join('')||'<tr><td colspan="6" style="color:#999">Sin personal</td></tr>';
+  const rpV=V.map(v=>`<tr><td>${v.puesto}</td><td>${v.turno}</td><td>${v.obs}</td></tr>`).join('')||'<tr><td colspan="3" style="color:#999">Sin vacantes</td></tr>';
+  const rpU=U.map(u=>`<tr><td>${u.placa}</td><td>${u.tipo}</td><td>${u.estado}</td><td>${u.obs}</td></tr>`).join('')||'<tr><td colspan="4" style="color:#999">Sin unidades</td></tr>';
+  const rpA=A.map(a=>`<tr><td>${a.tipo}</td><td>${a.serie}</td><td>${a.agente}</td><td>${a.estado}</td><td>${a.municion}</td></tr>`).join('')||'<tr><td colspan="5" style="color:#999">Sin armamento</td></tr>';
+
+  return `<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Reporte Seguridad ${turno} ${fecha}</title>
+<style>body{font-family:Georgia,serif;margin:1.5cm;color:#1a1a2e;background:#fff}
+.ptitle{font-size:20px;font-weight:bold;color:#1a2744}.psub{font-size:11px;color:#555;margin-top:2px}
+.pmeta{display:flex;gap:1.2rem;margin-top:7px;font-size:11px;color:#444;flex-wrap:wrap}
+.ph{border-bottom:3px solid #1a2744;padding-bottom:11px;margin-bottom:14px}
+.ps{margin-bottom:13px}.pst{font-size:13px;font-weight:bold;color:#1a2744;border-left:3px solid #1a2744;padding-left:7px;margin-bottom:7px}
+table{width:100%;border-collapse:collapse;font-size:11px}
+th{background:#1a2744;color:#fff;padding:5px 7px;text-align:left}
+td{padding:4px 7px;border-bottom:0.5px solid #d1d5db}
+tr:nth-child(even) td{background:#f0f4f8}
+.pfirma{margin-top:28px;display:flex;justify-content:space-around}
+.pfb{text-align:center;font-size:11px}.pfbl{border-top:1px solid #333;width:140px;margin:0 auto 4px}
+.pft{border-top:1px solid #d1d5db;margin-top:14px;padding-top:7px;font-size:10px;color:#999;display:flex;justify-content:space-between}
+@media print{@page{margin:1.5cm}}</style></head><body>
+<div class="ph"><div style="display:flex;justify-content:space-between;align-items:flex-start">
+<div><div class="ptitle">Reporte de Supervisión de Seguridad</div>
+<div class="psub">Turno ${turno} &nbsp;|&nbsp; Fecha: ${fecha} &nbsp;|&nbsp; Supervisor: ${sup}</div></div>
+<div style="font-size:10px;color:#666;text-align:right">Generado: ${new Date().toLocaleString('es-MX')}</div></div>
+<div class="pmeta"><span>Total: <strong>${P.length}</strong></span><span>Presentes: <strong>${pr}</strong></span><span>Faltas: <strong>${fa}</strong></span><span>Desc/Incap: <strong>${ds+ic}</strong></span><span>Nuevos: <strong>${nv}</strong></span><span>Armados: <strong>${arm}</strong></span><span>Vacantes: <strong>${V.length}</strong></span><span>Unidades: <strong>${U.length}</strong></span></div></div>
+<div class="ps"><div class="pst">1. Lista de Asistencia</div><table><tr><th>Placa</th><th>Nombre</th><th>Zona/Puesto</th><th>Armado</th><th>Estado</th><th>Observación</th></tr>${rpP}</table></div>
+<div class="ps"><div class="pst">2. Vacantes del Turno</div><table><tr><th>Zona</th><th>Turno</th><th>Observación</th></tr>${rpV}</table></div>
+<div class="ps"><div class="pst">3. Estado de Unidades</div><table><tr><th>Placa</th><th>Tipo</th><th>Estado</th><th>Observaciones</th></tr>${rpU}</table></div>
+<div class="ps"><div class="pst">4. Control de Armamento</div><table><tr><th>Tipo</th><th>No. Serie</th><th>Asignado a</th><th>Estado</th><th>Munición</th></tr>${rpA}</table></div>
+<div class="pfirma"><div class="pfb"><div class="pfbl"></div><div>Supervisor de Turno</div><div style="color:#666;margin-top:2px">${sup}</div></div><div class="pfb"><div class="pfbl"></div><div>Vo.Bo. Coordinador de Seguridad</div></div></div>
+<div class="pft"><span>Sistema de Supervisión de Seguridad</span><span>Turno ${turno} · ${fecha}</span></div>
+</body></html>`;
+}
+
+function getNombreArchivo(){
+  const fecha=document.getElementById('fecha').value||hoy.toISOString().slice(0,10);
+  const turno=document.getElementById('turno').value;
+  const sup=(document.getElementById('supnombre').value||'supervisor').replace(/\s+/g,'_');
+  return `Reporte_${turno}_${fecha}_${sup}.html`;
+}
+
+function setStatus(msg,tipo){
+  const el=document.getElementById('share-status');
+  el.className='share-status '+tipo;
+  el.textContent=msg;
+  setTimeout(()=>{el.className='share-status';},5000);
+}
+
+async function compartirWhatsApp(){
+  const html=buildHTML();
+  const nombre=getNombreArchivo();
+  const blob=new Blob([html],{type:'text/html;charset=utf-8'});
+  const file=new File([blob],nombre,{type:'text/html'});
+
+  if(navigator.canShare&&navigator.canShare({files:[file]})){
+    try{
+      await navigator.share({
+        title:'Reporte de Supervisión de Seguridad',
+        text:'Reporte del turno adjunto.',
+        files:[file]
+      });
+      setStatus('✅ Reporte compartido correctamente.','ok');
+    }catch(e){
+      if(e.name!=='AbortError'){
+        compartirTexto();
+      }
+    }
+  } else if(navigator.share){
+    compartirTexto();
+  } else {
+    setStatus('⚠ Tu navegador no soporta compartir directo. Usa "Descargar HTML" y comparte el archivo desde tu galería.','err');
+    descargarHTML();
+  }
+}
+
+function compartirTexto(){
+  const fecha=document.getElementById('fecha').value||hoy.toISOString().slice(0,10);
+  const turno=document.getElementById('turno').value;
+  const sup=document.getElementById('supnombre').value||'—';
+  const pr=P.filter(p=>p.estado==='P').length;
+  const fa=P.filter(p=>p.estado==='F').length;
+  const texto=`🛡 *REPORTE DE SUPERVISIÓN*\n📅 ${fecha} | Turno ${turno}\n👤 Supervisor: ${sup}\n\n👥 Personal: ${P.length} total\n✅ Presentes: ${pr}\n❌ Faltas: ${fa}\n🔴 Vacantes: ${V.length}\n🚗 Unidades: ${U.length}\n🔒 Armamento: ${A.length} registros\n\n_Reporte generado por Sistema de Supervisión_`;
+  navigator.share({title:'Reporte Seguridad',text:texto}).then(()=>setStatus('✅ Resumen compartido. Para el reporte completo usa Descargar HTML.','ok')).catch(()=>setStatus('Compartir cancelado.','inf'));
+}
+
+function descargarHTML(){
+  const html=buildHTML();
+  const nombre=getNombreArchivo();
+  const blob=new Blob([html],{type:'text/html;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download=nombre;
+  document.body.appendChild(a);a.click();
+  setTimeout(()=>{URL.revokeObjectURL(url);document.body.removeChild(a);},1000);
+  setStatus('✅ Reporte descargado: '+nombre,'ok');
+}
+
+function renderPDF(){
+  const fecha=document.getElementById('fecha').value||hoy.toISOString().slice(0,10);
+  const turno=document.getElementById('turno').value;
+  const sup=document.getElementById('supnombre').value||'No especificado';
+  const pr=P.filter(p=>p.estado==='P').length,fa=P.filter(p=>p.estado==='F').length,ds=P.filter(p=>p.estado==='D').length,ic=P.filter(p=>p.estado==='I').length;
+  const nv=P.filter(p=>p.nuevo==='Si').length,arm=P.filter(p=>p.armado==='Si').length;
+  const rpP=P.map(p=>`<tr><td>${p.placa}</td><td>${p.nombre}${p.nuevo==='Si'?' ★':''}</td><td>${p.zona}</td><td>${p.armado}</td><td>${eNom(p.estado)}</td><td>${p.motivo||'—'}</td></tr>`).join('')||'<tr><td colspan="6" style="color:#999">Sin personal</td></tr>';
+  const rpV=V.map(v=>`<tr><td>${v.puesto}</td><td>${v.turno}</td><td>${v.obs}</td></tr>`).join('')||'<tr><td colspan="3" style="color:#999">Sin vacantes</td></tr>';
+  const rpU=U.map(u=>`<tr><td>${u.placa}</td><td>${u.tipo}</td><td>${u.estado}</td><td>${u.obs}</td></tr>`).join('')||'<tr><td colspan="4" style="color:#999">Sin unidades</td></tr>';
+  const rpA=A.map(a=>`<tr><td>${a.tipo}</td><td>${a.serie}</td><td>${a.agente}</td><td>${a.estado}</td><td>${a.municion}</td></tr>`).join('')||'<tr><td colspan="5" style="color:#999">Sin armamento</td></tr>';
+  document.getElementById('prev').innerHTML=`<div class="pdf-wrap">
+    <div class="ph"><div style="display:flex;justify-content:space-between;align-items:flex-start">
+    <div><div class="ptitle">Reporte de Supervisión de Seguridad</div>
+    <div class="psub">Turno ${turno} · ${fecha} · Supervisor: ${sup}</div></div>
+    <div style="font-size:10px;color:#666">${new Date().toLocaleString('es-MX')}</div></div>
+    <div class="pmeta"><span>Total: <strong>${P.length}</strong></span><span>Presentes: <strong>${pr}</strong></span><span>Faltas: <strong>${fa}</strong></span><span>Desc/Incap: <strong>${ds+ic}</strong></span><span>Nuevos: <strong>${nv}</strong></span><span>Armados: <strong>${arm}</strong></span><span>Vacantes: <strong>${V.length}</strong></span></div></div>
+    <div class="ps"><div class="pst">1. Lista de asistencia</div><table class="ptable"><tr><th>Placa</th><th>Nombre</th><th>Zona</th><th>Armado</th><th>Estado</th><th>Observación</th></tr>${rpP}</table></div>
+    <div class="ps"><div class="pst">2. Vacantes</div><table class="ptable"><tr><th>Zona</th><th>Turno</th><th>Observación</th></tr>${rpV}</table></div>
+    <div class="ps"><div class="pst">3. Unidades</div><table class="ptable"><tr><th>Placa</th><th>Tipo</th><th>Estado</th><th>Observaciones</th></tr>${rpU}</table></div>
+    <div class="ps"><div class="pst">4. Armamento</div><table class="ptable"><tr><th>Tipo</th><th>Serie</th><th>Asignado a</th><th>Estado</th><th>Munición</th></tr>${rpA}</table></div>
+    <div class="pfirma"><div class="pfb"><div class="pfbl"></div><div>Supervisor de Turno</div><div style="color:#666;margin-top:2px">${sup}</div></div><div class="pfb"><div class="pfbl"></div><div>Vo.Bo. Coordinador</div></div></div>
+    <div class="pft"><span>Sistema de Supervisión de Seguridad</span><span>Turno ${turno} · ${fecha}</span></div>
+  </div>`;
+}
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js')
+    .then(() => console.log("Servicio de Seguridad Activo"))
+    .catch(err => console.log("Error al registrar:", err));
+}
+</script>
